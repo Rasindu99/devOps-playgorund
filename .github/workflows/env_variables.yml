@@ -1,0 +1,37 @@
+name: Variables Scope 
+
+on: 
+  workflow_dispatch:
+
+env:
+  APP_NAME: my-app-hello
+
+jobs:
+  build:
+    runs-on: ubuntu-latest 
+    env:
+      ENV_NAME: development
+    steps:
+      - name: Show workflow and job Variables
+        run: |
+          echo "App: $APP_NAME"
+          echo "Environment: $ENV_NAME"
+          echo "Message: ${MESSAGE:-<UNSET>}"
+
+      - name: Add step variable
+        env:
+          MESSAGE: "This is a step variable"
+        run: |
+          echo "App: $APP_NAME"
+          echo "Environment: $ENV_NAME"
+          echo "Message: $MESSAGE"
+  test:
+    runs-on: ubuntu-latest
+    env:
+      ENV_NAME: testing
+    steps:
+      - name: show test job variables
+        run: |
+          echo "App: $APP_NAME"
+          echo "Environment: $ENV_NAME"
+          echo "Message: ${MESSAGE:-<UNSET>}"
